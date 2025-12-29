@@ -188,29 +188,50 @@
         <!-- Services Section -->
         <section id="services">
             <h2 class="section-heading">Services</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <img src="logo/PS.png" alt="Photoshop" onerror="this.innerHTML='💻'">
+            <div class="carousel-container">
+                <button class="carousel-btn prev-btn" aria-label="Previous">❮</button>
+                <div class="services-carousel">
+                    <div class="carousel-track">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <img src="logo/PS.png" alt="Photoshop" onerror="this.innerHTML='💻'">
+                            </div>
+                            <h3>Photoshop</h3>
+                            <p>Professional photo editing, graphic design, and digital artwork creation using Adobe Photoshop
+                                with advanced techniques.</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <img src="logo/Unity3d.png" class="invert-dark" alt="Game Development">
+                            </div>
+                            <h3>Game Development</h3>
+                            <p>Creating engaging games with Unity and Godot Engine, from concept to deployment.</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <img src="logo/UX.png" alt="UI/UX Design" onerror="this.innerHTML='🎨'">
+                            </div>
+                            <h3>UI/UX Design</h3>
+                            <p>Designing intuitive user interfaces with focus on user experience and accessibility.</p>
+                        </div>
+                        <!-- Added dummy services for carousel demonstration -->
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <span style="font-size: 40px;">🌐</span>
+                            </div>
+                            <h3>Web Development</h3>
+                            <p>Building responsive and modern websites using HTML, CSS, JavaScript, and various frameworks.</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <span style="font-size: 40px;">📱</span>
+                            </div>
+                            <h3>App Development</h3>
+                            <p>Developing cross-platform mobile applications for iOS and Android.</p>
+                        </div>
                     </div>
-                    <h3>Photoshop</h3>
-                    <p>Professional photo editing, graphic design, and digital artwork creation using Adobe Photoshop
-                        with advanced techniques.</p>
                 </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <img src="logo/Unity3d.png" class="invert-dark" alt="Game Development">
-                    </div>
-                    <h3>Game Development</h3>
-                    <p>Creating engaging games with Unity and Godot Engine, from concept to deployment.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <img src="logo/UX.png" alt="UI/UX Design" onerror="this.innerHTML='🎨'">
-                    </div>
-                    <h3>UI/UX Design</h3>
-                    <p>Designing intuitive user interfaces with focus on user experience and accessibility.</p>
-                </div>
+                <button class="carousel-btn next-btn" aria-label="Next">❯</button>
             </div>
         </section>
 
@@ -422,6 +443,59 @@
                     link.classList.add('active');
                 }
             });
+        });
+
+        // Carousel Functionality
+        const track = document.querySelector('.carousel-track');
+        const nextBtn = document.querySelector('.next-btn');
+        const prevBtn = document.querySelector('.prev-btn');
+        const cards = document.querySelectorAll('.service-card');
+
+        let currentIndex = 0;
+
+        function updateCarousel() {
+            const cardWidth = cards[0].offsetWidth + 32; // card width + gap
+            const trackWidth = track.scrollWidth;
+            const containerWidth = track.parentElement.offsetWidth;
+            const maxScroll = trackWidth - containerWidth;
+
+            // Calculate number of visible cards
+            const visibleCards = Math.floor(containerWidth / cardWidth);
+            const maxIndex = cards.length - visibleCards;
+
+            // Ensure index stays within bounds
+            if (currentIndex < 0) currentIndex = 0;
+            if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+            const translateX = currentIndex * cardWidth;
+            track.style.transform = `translateX(-${translateX}px)`;
+
+            // Update button states
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex >= maxIndex;
+
+            prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
+            nextBtn.style.opacity = currentIndex >= maxIndex ? '0.5' : '1';
+            prevBtn.style.cursor = currentIndex === 0 ? 'not-allowed' : 'pointer';
+            nextBtn.style.cursor = currentIndex >= maxIndex ? 'not-allowed' : 'pointer';
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex++;
+            updateCarousel();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex--;
+            updateCarousel();
+        });
+
+        // Initial update
+        updateCarousel();
+
+        // Update on resize
+        window.addEventListener('resize', () => {
+            updateCarousel();
         });
     </script>
 </body>
