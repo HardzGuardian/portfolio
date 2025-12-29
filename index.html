@@ -28,6 +28,11 @@
     <header>
         <nav class="nav-content">
             <a href="#home" class="logo">.sagarsalunkhe98</a>
+            <div class="mobile-menu-btn" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
             <ul class="nav-links">
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
@@ -371,6 +376,12 @@
     </footer>
 
     <script>
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+            document.querySelector('.mobile-menu-btn').classList.toggle('active');
+            document.body.style.overflow = document.body.style.overflow === 'hidden' ? '' : 'hidden';
+        }
+
         function toggleTheme() {
             document.body.classList.toggle('light-mode');
             localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
@@ -395,6 +406,13 @@
                     if (this.classList.contains('nav-link')) {
                         this.classList.add('active');
                     }
+                }
+
+                // Close mobile menu if open
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.nav-links').classList.remove('active');
+                    document.querySelector('.mobile-menu-btn').classList.remove('active');
+                    document.body.style.overflow = '';
                 }
             });
         });
@@ -489,6 +507,40 @@
         window.addEventListener('resize', () => {
             updateCarousel();
         });
+
+        // Touch Swipe Support for Carousel
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        track.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        track.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const threshold = 50; // Minimum swipe distance
+            const swipeDistance = touchStartX - touchEndX;
+
+            if (Math.abs(swipeDistance) > threshold) {
+                if (swipeDistance > 0) {
+                    // Swipe Left - Next
+                    if (!nextBtn.disabled) {
+                        currentIndex++;
+                        updateCarousel();
+                    }
+                } else {
+                    // Swipe Right - Prev
+                    if (!prevBtn.disabled) {
+                        currentIndex--;
+                        updateCarousel();
+                    }
+                }
+            }
+        }
     </script>
 </body>
 
