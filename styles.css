@@ -31,6 +31,7 @@ body.light-mode {
     box-sizing: border-box;
 }
 
+html,
 body {
     font-family: 'Manrope', sans-serif;
     background: var(--bg-black);
@@ -770,11 +771,16 @@ footer {
 
     .nav-content,
     main,
-    #about,
-    #contact,
     footer {
         padding-left: 48px;
         padding-right: 48px;
+    }
+
+    #about,
+    #contact {
+        padding-left: 48px;
+        padding-right: 48px;
+        margin: 0 -48px;
     }
 
     #home {
@@ -783,7 +789,9 @@ footer {
     }
 
     .home-image {
-        flex: 0 0 300px;
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 300px;
     }
 
     .about-content {
@@ -833,11 +841,16 @@ footer {
     }
 
     main,
-    #about,
-    #contact,
     footer {
         padding-left: 24px;
         padding-right: 24px;
+    }
+
+    #about,
+    #contact {
+        padding-left: 24px;
+        padding-right: 24px;
+        margin: 0 -24px;
     }
 
     .home-content h1 {
