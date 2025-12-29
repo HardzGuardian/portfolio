@@ -380,6 +380,7 @@ section {
 .services-carousel {
     overflow: hidden;
     width: 100%;
+    padding: 10px 0;
 }
 
 .carousel-track {
