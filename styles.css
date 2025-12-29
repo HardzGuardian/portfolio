@@ -411,6 +411,11 @@ section {
     margin-bottom: 16px;
 }
 
+body:not(.light-mode) .cert-icon img[src*="github"],
+body:not(.light-mode) .service-icon img[src*="Unity3d"] {
+    filter: brightness(0) invert(1);
+}
+
 .service-card p {
     color: var(--text-gray);
     line-height: 1.6;
