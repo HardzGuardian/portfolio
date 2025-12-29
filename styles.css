@@ -370,10 +370,22 @@ section {
     }
 }
 
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+.carousel-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.services-carousel {
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-track {
+    display: flex;
     gap: 32px;
+    transition: transform 0.3s ease-in-out;
 }
 
 .service-card {
@@ -383,11 +395,34 @@ section {
     padding: 40px;
     text-align: center;
     transition: all 0.3s;
-    animation: fadeInUp 0.6s ease;
+    flex: 0 0 calc(33.333% - 22px);
+    min-width: 300px;
 }
 
 .service-card:hover {
     transform: translateY(-8px);
+    border-color: var(--accent-green);
+}
+
+.carousel-btn {
+    background: var(--card-bg);
+    border: 1px solid var(--border-gray);
+    color: var(--text-white);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.carousel-btn:hover {
+    background: var(--accent-green);
+    color: var(--bg-black);
     border-color: var(--accent-green);
 }
 
@@ -727,8 +762,8 @@ footer {
         grid-template-columns: 1fr;
     }
 
-    .services-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .service-card {
+        flex: 0 0 calc(50% - 16px);
     }
 }
 
@@ -761,8 +796,25 @@ footer {
         font-size: 42px;
     }
 
-    .services-grid {
-        grid-template-columns: 1fr;
+    .service-card {
+        flex: 0 0 100%;
+        min-width: unset;
+    }
+
+    .carousel-container {
+        padding: 0 40px;
+    }
+
+    .carousel-btn {
+        position: absolute;
+    }
+
+    .prev-btn {
+        left: -20px;
+    }
+
+    .next-btn {
+        right: -20px;
     }
 
     .footer-buttons {
