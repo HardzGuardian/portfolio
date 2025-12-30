@@ -11,6 +11,36 @@ class TextAnimations {
             gsap.registerPlugin(ScrollTrigger);
         }
 
+        // Blur Text (ReactBits Style)
+        const blurElements = document.querySelectorAll('.blur-text-anim');
+        blurElements.forEach(el => {
+            const text = el.innerText;
+            el.innerHTML = '';
+            text.split('').forEach(char => {
+                const span = document.createElement('span');
+                span.innerText = char;
+                span.style.display = 'inline-block';
+                span.style.opacity = '0';
+                span.style.filter = 'blur(10px)';
+                span.style.transform = 'translate3d(0, -10px, 0)';
+                if (char === ' ') span.innerHTML = '&nbsp;';
+                el.appendChild(span);
+            });
+
+            gsap.to(el.children, {
+                opacity: 1,
+                filter: 'blur(0px)',
+                y: 0,
+                duration: 1.2,
+                stagger: 0.05,
+                ease: 'power4.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 80%'
+                }
+            });
+        });
+
         // Split Text
         const splitElements = document.querySelectorAll('.split-text-anim');
         console.log(`Found ${splitElements.length} split elements`);

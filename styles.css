@@ -1177,14 +1177,26 @@ footer {
   color: var(--accent-green);
 }
 
-/* --- Services Grid CSS --- */
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 32px;
+/* --- Infinite Slider CSS --- */
+.infinite-slider-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 20px 0;
+    /* Fade mask on sides */
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
-/* Override existing service-card styles to fit grid */
+.infinite-slider-track {
+    display: flex;
+    gap: 32px;
+    width: max-content;
+    will-change: transform;
+    /* Ensure no wrapping */
+    flex-wrap: nowrap;
+}
+
 .service-card {
     background: var(--card-bg);
     border: 1px solid var(--border-gray);
@@ -1192,15 +1204,20 @@ footer {
     padding: 40px;
     text-align: center;
     transition: all 0.3s;
-    /* Remove old flex properties */
-    flex: unset;
-    min-width: unset;
-    width: 100%;
-    height: 100%;
+    /* Fixed dimensions for slider */
+    flex: 0 0 300px; /* Fixed width */
+    width: 300px;
+    height: 340px; /* Uniform height */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent-green);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 /* LogoLoop removed */
