@@ -462,57 +462,111 @@
             });
         });
 
-        // Carousel Functionality
+        // Carousel Functionality - Infinite Sliding
         const track = document.querySelector('.carousel-track');
         const nextBtn = document.querySelector('.next-btn');
         const prevBtn = document.querySelector('.prev-btn');
-        const cards = document.querySelectorAll('.service-card');
+        let cards = Array.from(document.querySelectorAll('.service-card'));
+        const originalCount = cards.length;
 
-        let currentIndex = 0;
+        // Clone cards for seamless loop [Clones] [Originals] [Clones]
+        // Prepend clones (Set 1) - Iterate in reverse to maintain order when prepending
+        cards.slice().reverse().forEach(card => {
+            const clone = card.cloneNode(true);
+            clone.classList.add('clone');
+            track.insertBefore(clone, track.firstChild);
+        });
 
-        function updateCarousel() {
-            const cardWidth = cards[0].offsetWidth + 32; // card width + gap
-            const trackWidth = track.scrollWidth;
-            const containerWidth = track.parentElement.offsetWidth;
-            const maxScroll = trackWidth - containerWidth;
+        // Append clones (Set 3)
+        cards.forEach(card => {
+            const clone = card.cloneNode(true);
+            clone.classList.add('clone');
+            track.appendChild(clone);
+        });
 
-            // Calculate number of visible cards
-            const visibleCards = Math.floor(containerWidth / cardWidth);
-            const maxIndex = cards.length - visibleCards;
+        // Re-query cards to include clones
+        let allCards = document.querySelectorAll('.service-card');
 
-            // Ensure index stays within bounds
-            if (currentIndex < 0) currentIndex = 0;
-            if (currentIndex > maxIndex) currentIndex = maxIndex;
+        // Start at the beginning of the original set (Set 2)
+        // Set 1 has 'originalCount' items. So index starts at 'originalCount'.
+        let currentIndex = originalCount;
+        let isTransitioning = false;
+
+        function updateCarousel(transition = true) {
+            const cardWidth = allCards[0].offsetWidth + 32; // card width + gap
+
+            if (!transition) {
+                track.style.transition = 'none';
+            } else {
+                track.style.transition = 'transform 0.3s ease-in-out';
+            }
 
             const translateX = currentIndex * cardWidth;
             track.style.transform = `translateX(-${translateX}px)`;
+        }
 
-            // Update button states
-            prevBtn.disabled = currentIndex === 0;
-            nextBtn.disabled = currentIndex >= maxIndex;
+        // Handle transition end for seamless loop
+        track.addEventListener('transitionend', () => {
+            isTransitioning = false;
 
-            prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
-            nextBtn.style.opacity = currentIndex >= maxIndex ? '0.5' : '1';
-            prevBtn.style.cursor = currentIndex === 0 ? 'not-allowed' : 'pointer';
-            nextBtn.style.cursor = currentIndex >= maxIndex ? 'not-allowed' : 'pointer';
+            // If at the end of Set 3 (last clone), jump to end of Set 2 (last original)
+            // Actually, we usually jump when we reach the *start* of a clone set.
+
+            // Ranges:
+            // 0 to originalCount-1: Set 1 (Clones)
+            // originalCount to 2*originalCount-1: Set 2 (Originals)
+            // 2*originalCount to 3*originalCount-1: Set 3 (Clones)
+
+            // If we are in Set 3 (After originals)
+            if (currentIndex >= 2 * originalCount) {
+                track.style.transition = 'none';
+                currentIndex = currentIndex - originalCount;
+                updateCarousel(false);
+            }
+
+            // If we are in Set 1 (Before originals)
+            if (currentIndex < originalCount) {
+                track.style.transition = 'none';
+                currentIndex = currentIndex + originalCount;
+                updateCarousel(false);
+            }
+        });
+
+        function moveSlide(direction) {
+            if (isTransitioning) return;
+            isTransitioning = true;
+
+            if (direction === 'next') {
+                currentIndex++;
+            } else {
+                currentIndex--;
+            }
+            updateCarousel();
         }
 
         nextBtn.addEventListener('click', () => {
-            currentIndex++;
-            updateCarousel();
+            moveSlide('next');
         });
 
         prevBtn.addEventListener('click', () => {
-            currentIndex--;
-            updateCarousel();
+            moveSlide('prev');
         });
 
-        // Initial update
-        updateCarousel();
+        // Initial update without transition
+        // Wait for layout to settle (important for offsetWidth)
+        window.addEventListener('load', () => {
+             updateCarousel(false);
+        });
+
+        // Also call immediately for development (sometimes load is already fired)
+        updateCarousel(false);
 
         // Update on resize
         window.addEventListener('resize', () => {
-            updateCarousel();
+            // Re-calculate width. Resetting to a safe index might be good but not strictly necessary if logic holds.
+            // Just update position without transition to prevent glitch
+            track.style.transition = 'none';
+            updateCarousel(false);
         });
 
         // Touch Swipe Support for Carousel
@@ -535,16 +589,10 @@
             if (Math.abs(swipeDistance) > threshold) {
                 if (swipeDistance > 0) {
                     // Swipe Left - Next
-                    if (!nextBtn.disabled) {
-                        currentIndex++;
-                        updateCarousel();
-                    }
+                    moveSlide('next');
                 } else {
                     // Swipe Right - Prev
-                    if (!prevBtn.disabled) {
-                        currentIndex--;
-                        updateCarousel();
-                    }
+                    moveSlide('prev');
                 }
             }
         }
