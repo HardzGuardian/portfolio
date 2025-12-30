@@ -14,7 +14,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
     <script src="js/liquid-ether.js"></script>
     <script src="js/components/pill-nav.js"></script>
+    <script src="js/components/infinite-slider.js"></script>
     <script src="js/components/tilted-card.js"></script>
+    <script src="js/components/magnetic-button.js"></script>
     <script src="js/components/animations.js"></script>
 
 </head>
@@ -106,7 +108,7 @@
         <!-- Home Section -->
         <section id="home">
             <div class="home-content">
-                <h1 class="split-text-anim">Hi, I'm Sagar Salunkhe</h1>
+                <h1 class="blur-text-anim">Hi, I'm Sagar Salunkhe</h1>
                 <p class="fade-content-anim">Designer, Developer, and Creative Problem Solver</p>
 
                 <div class="social-links fade-content-anim">
@@ -247,34 +249,43 @@
         <!-- Services Section -->
         <section id="services">
             <h2 class="section-heading scroll-float-anim">Services</h2>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <img src="logo/PS.png" alt="Photoshop">
+            <div class="infinite-slider-container">
+                <div class="infinite-slider-track">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <img src="logo/PS.png" alt="Photoshop">
+                        </div>
+                        <h3 class="scroll-float-anim">Photoshop</h3>
+                        <p class="fade-content-anim">Professional photo manipulation and digital artwork.</p>
                     </div>
-                    <h3 class="scroll-float-anim">Photoshop</h3>
-                    <p class="fade-content-anim">Professional photo manipulation and digital artwork.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <img src="logo/Unity3d.png" alt="Game Dev" class="invert-dark">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <img src="logo/Unity3d.png" alt="Game Dev" class="invert-dark">
+                        </div>
+                        <h3 class="scroll-float-anim">Game Dev</h3>
+                        <p class="fade-content-anim">Creating engaging games with Unity and Godot.</p>
                     </div>
-                    <h3 class="scroll-float-anim">Game Dev</h3>
-                    <p class="fade-content-anim">Creating engaging games with Unity and Godot.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <img src="logo/UX.png" alt="UI/UX">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <img src="logo/UX.png" alt="UI/UX">
+                        </div>
+                        <h3 class="scroll-float-anim">UI/UX Design</h3>
+                        <p class="fade-content-anim">Designing intuitive and accessible user interfaces.</p>
                     </div>
-                    <h3 class="scroll-float-anim">UI/UX Design</h3>
-                    <p class="fade-content-anim">Designing intuitive and accessible user interfaces.</p>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">
-                        <img src="logo/AE.png" alt="After Effects">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <img src="logo/AE.png" alt="After Effects">
+                        </div>
+                        <h3 class="scroll-float-anim">After Effects</h3>
+                        <p class="fade-content-anim">Motion graphics and visual storytelling.</p>
                     </div>
-                    <h3 class="scroll-float-anim">After Effects</h3>
-                    <p class="fade-content-anim">Motion graphics and visual storytelling.</p>
+                     <div class="service-card">
+                        <div class="service-icon">
+                            <img src="logo/code.png" alt="Web Dev" class="invert-dark">
+                        </div>
+                        <h3 class="scroll-float-anim">Web Dev</h3>
+                        <p class="fade-content-anim">Building responsive and performant web applications.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -465,6 +476,18 @@
                 const nav = document.querySelector('.pill-nav');
                 if (nav) new PillNav(nav);
             } catch(e) { console.error("PillNav Error:", e); }
+
+            // Infinite Slider (Services)
+            try {
+                const sliderContainer = document.querySelector('.infinite-slider-container');
+                if (sliderContainer) new InfiniteSlider(sliderContainer, { speed: 1.5 });
+            } catch(e) { console.error("InfiniteSlider Error:", e); }
+
+            // Magnetic Buttons
+            try {
+                const buttons = document.querySelectorAll('.btn-primary, .btn-secondary, .social-link, .footer-btn');
+                buttons.forEach(btn => new MagneticButton(btn));
+            } catch(e) { console.error("MagneticButton Error:", e); }
 
             // Tilted Card (Home & About Image)
             try {
