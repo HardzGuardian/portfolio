@@ -10,7 +10,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="js/light-pillar.js"></script>
+    <script src="js/liquid-ether.js"></script>
 
 </head>
 
@@ -589,15 +589,14 @@
             }
         }
 
-        // Initialize Light Pillar
+        // Initialize Liquid Ether
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('canvas-container');
             if (container) {
-                new LightPillar(container, {
-                    topColor: '#ffffff',
-                    bottomColor: '#9eb1ff',
-                    intensity: 1.0,
-                    interactive: false
+                new LiquidEther(container, {
+                    color0: '#ffffff',
+                    color1: '#0d0d0d',
+                    color2: '#f2f1f3'
                 });
             }
         });
