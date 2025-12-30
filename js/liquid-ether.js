@@ -587,21 +587,21 @@ class Simulation {
             BFECC: this.options.BFECC
         });
         this.externalForce.update({
-            cursor_size: this.options.cursor_size,
-            mouse_force: this.options.mouse_force,
+            cursor_size: this.options.cursorSize,
+            mouse_force: this.options.mouseForce,
             cellScale: this.cellScale
         });
         let vel = this.fbos.vel_1;
         if (this.options.isViscous) {
             vel = this.viscous.update({
                 viscous: this.options.viscous,
-                iterations: this.options.iterations_viscous,
+                iterations: this.options.iterationsViscous,
                 dt: this.options.dt
             });
         }
         this.divergence.update({ vel });
         const pressure = this.poisson.update({
-            iterations: this.options.iterations_poisson
+            iterations: this.options.iterationsPoisson
         });
         this.pressure.update({ vel, pressure });
     }
