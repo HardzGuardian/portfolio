@@ -9,21 +9,13 @@
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=DM+Mono:wght@300;400&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/light-pillar.js"></script>
 
 </head>
 
 <body>
-    <div class="grid-bg">
-        <div class="grid-line" style="left: 10%"></div>
-        <div class="grid-line" style="left: 20%"></div>
-        <div class="grid-line" style="left: 30%"></div>
-        <div class="grid-line" style="left: 40%"></div>
-        <div class="grid-line" style="left: 50%"></div>
-        <div class="grid-line" style="left: 60%"></div>
-        <div class="grid-line" style="left: 70%"></div>
-        <div class="grid-line" style="left: 80%"></div>
-        <div class="grid-line" style="left: 90%"></div>
-    </div>
+    <div id="canvas-container"></div>
 
     <header>
         <nav class="nav-content">
@@ -596,6 +588,19 @@
                 }
             }
         }
+
+        // Initialize Light Pillar
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('canvas-container');
+            if (container) {
+                new LightPillar(container, {
+                    topColor: '#ffffff',
+                    bottomColor: '#9eb1ff',
+                    intensity: 1.0,
+                    interactive: false
+                });
+            }
+        });
     </script>
 </body>
 
