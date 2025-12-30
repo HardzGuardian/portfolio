@@ -915,3 +915,447 @@ footer {
         font-size: 36px;
     }
 }
+/* --- Pill Nav CSS --- */
+.pill-nav-container {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: auto;
+  transition: all 0.5s ease;
+}
+
+/* Mobile: Floating Bottom Bar */
+@media (max-width: 768px) {
+  .pill-nav-container {
+    top: auto;
+    bottom: 30px; /* Float at bottom */
+    width: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0;
+  }
+}
+
+.pill-nav {
+  --nav-h: 48px;
+  --logo: 36px;
+  --pill-pad-x: 18px;
+  --pill-gap: 3px;
+  --base: #fff;
+  --pill-bg: rgba(0, 0, 0, 0.5);
+  --pill-text: #fff;
+  --hover-text: #000;
+
+  width: max-content;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  backdrop-filter: blur(12px);
+  background: rgba(20, 20, 20, 0.6);
+  border-radius: 9999px;
+  padding: 4px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 768px) {
+  .pill-nav {
+    width: auto;
+    /* Keep pill shape on mobile */
+    justify-content: center;
+    padding: 6px;
+    background: rgba(20, 20, 20, 0.85); /* Darker for contrast */
+  }
+}
+
+.pill-nav-items {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: var(--nav-h);
+  /* background: var(--base, #000); Removed to allow individual pill bg */
+  border-radius: 9999px;
+}
+
+.pill-logo {
+  width: var(--nav-h);
+  height: var(--nav-h);
+  border-radius: 50%;
+  background: transparent;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-right: 12px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.pill-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pill-list {
+  list-style: none;
+  display: flex;
+  align-items: stretch;
+  gap: var(--pill-gap);
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.pill-list > li {
+  display: flex;
+  height: 100%;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 var(--pill-pad-x);
+  background: transparent;
+  color: var(--pill-text);
+  text-decoration: none;
+  border-radius: 9999px;
+  box-sizing: border-box;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s;
+}
+
+.pill:hover {
+    color: var(--hover-text);
+}
+
+.pill .hover-circle {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  border-radius: 50%;
+  background: var(--base, #fff);
+  z-index: 1;
+  display: block;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.pill .label-stack {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+  z-index: 2;
+}
+
+.pill .pill-label {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  line-height: 1;
+  will-change: transform;
+}
+
+.pill .pill-label-hover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--hover-text, #000);
+  z-index: 3;
+  display: inline-block;
+  will-change: transform, opacity;
+  opacity: 0;
+}
+
+.desktop-only {
+  display: block;
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+
+  /* Hide the logo in the bottom bar to save space if needed, or keep it */
+  .pill-logo {
+      width: 42px;
+      height: 42px;
+      margin-right: 8px;
+  }
+}
+
+.mobile-menu-button {
+  width: var(--nav-h);
+  height: var(--nav-h);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  z-index: 1001;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-button {
+    display: flex;
+  }
+}
+
+.hamburger-line {
+  width: 16px;
+  height: 2px;
+  background: #fff;
+  border-radius: 1px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.mobile-menu-popover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-align: center;
+}
+
+.mobile-menu-popover .mobile-menu-link {
+  display: block;
+  padding: 12px 24px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 24px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.mobile-menu-popover .mobile-menu-link:hover {
+  color: var(--accent-green);
+}
+
+/* --- Carousel CSS --- */
+.carousel-container {
+  position: relative;
+  overflow: hidden;
+  /* border: 1px solid #555; */
+  /* border-radius: 24px; */
+  /* padding: 16px; */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  perspective: 1000px;
+}
+
+.carousel-track {
+  display: flex;
+  align-items: center;
+  transform-style: preserve-3d;
+  height: 400px; /* Explicit height for 3D layout */
+}
+
+.carousel-item {
+  position: absolute; /* Changed to absolute for 3D stacking */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content */
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  background-color: rgba(13, 7, 22, 0.8);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  cursor: grab;
+  width: 300px;
+  height: 400px;
+  transition: border-color 0.3s;
+}
+
+.carousel-item:active {
+  cursor: grabbing;
+}
+
+.carousel-icon-container {
+  display: flex;
+  height: 60px;
+  width: 60px;
+  align-items: center;
+  justify-content: center;
+  /* border-radius: 50%; */
+  /* background-color: #fff; */
+  margin-bottom: 20px;
+}
+
+.carousel-icon-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.carousel-item-title {
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 24px;
+  color: #fff;
+}
+
+.carousel-item-description {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  padding: 0 20px;
+}
+
+/* --- LogoLoop CSS --- */
+.logoloop {
+  position: relative;
+  --logoloop-gap: 32px;
+  --logoloop-logoHeight: 28px;
+  width: 100%;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.logoloop__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.logoloop__list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.logoloop__item {
+  flex: 0 0 auto;
+  margin-right: var(--logoloop-gap);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoloop__item a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-decoration: none;
+}
+
+.logoloop__item svg {
+    width: 32px;
+    height: 32px;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.logoloop__item:hover svg {
+    transform: scale(1.2);
+    color: var(--accent-green);
+}
+
+/* --- Tilted Card CSS --- */
+.tilted-card-figure {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tilted-card-inner {
+  position: relative;
+  transform-style: preserve-3d;
+  width: 100%;
+  height: 100%;
+}
+
+.tilted-card-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+  will-change: transform;
+  /* transform: translateZ(0); handled by JS */
+}
+
+/* --- Scroll Float & Split Text --- */
+.scroll-float-text {
+    display: inline-block;
+    /* font-size handled by container */
+}
+
+.char {
+    display: inline-block;
+    opacity: 0; /* Initial state */
+}
+
+.split-parent {
+    overflow: hidden;
+    display: inline-block;
+}
+
+.split-word {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.split-char {
+    display: inline-block;
+}
